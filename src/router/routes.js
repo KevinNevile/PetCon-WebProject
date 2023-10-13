@@ -1,19 +1,37 @@
-
 const routes = [
   {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
-    ]
+    path: "/", // Redireciona a rota raiz ("/") para "/home"
+    redirect: "/home",
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
-    path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue')
-  }
-]
+    path: "/home",
+    component: () => import("pages/Home.vue"),
+  },
+  {
+    path: "/",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "consultas",
+        name: "consultas",
+        component: () => import("pages/Consultas.vue"),
+      },
+      {
+        path: "CadastrarConsulta",
+        name: "formConsulta",
+        component: () => import("pages/Cadastro/ConsultaCad.vue"),
+      },
+      {
+        path: "EditarConsulta",
+        name: "editConsulta",
+        component: () => import("pages/Editar/ConsultaEdit.vue"),
+      },
+    ],
+  },
+  {
+    path: "/home",
+    component: () => import("pages/Home.vue"),
+  },
+];
 
-export default routes
+export default routes;
