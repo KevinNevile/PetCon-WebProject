@@ -5,17 +5,24 @@
         <q-th :props="props">Ações</q-th>
       </template>
       <template v-slot:top>
-        <span class="text-h5">Consultas <span class="text-h6">({{ rows.length }})</span></span>
+        <span class="text-h5">Consultas <span class="text-h6" style="color: rgb(167, 167, 167);">({{ rows.length
+        }})</span></span>
         <q-space />
         <q-btn color="primary" :disable="loading" label="Cadastrar" :to="{ name: 'formConsulta' }" />
       </template>
 
       <template v-slot:body-cell-acoes="props">
         <q-td :props="props">
-          <q-btn style="margin-right: 5px;" icon="edit" color="primary" dense @click="editRow(props.row.id)">
+          <q-btn style="margin-right: 5px;" icon="edit" color="primary" dense :to="{ name: 'editConsulta' }">
           </q-btn>
           <q-btn icon="delete" color="negative" dense @click="deleteRow(props.row.id)">
           </q-btn>
+        </q-td>
+      </template>
+
+      <template v-slot:body-cell-status="props">
+        <q-td :props="props">
+          <q-badge :color="props.row.status === 'Concluído' ? 'red' : 'green'">{{ props.row.status }}</q-badge>
         </q-td>
       </template>
     </q-table>

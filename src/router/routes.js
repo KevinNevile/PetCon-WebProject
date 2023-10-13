@@ -21,6 +21,11 @@ const routes = [
         name: "formConsulta",
         component: () => import("pages/Cadastro/ConsultaCad.vue"),
       },
+      {
+        path: "EditarConsulta",
+        name: "editConsulta",
+        component: () => import("pages/Editar/ConsultaEdit.vue"),
+      },
     ],
   },
   {

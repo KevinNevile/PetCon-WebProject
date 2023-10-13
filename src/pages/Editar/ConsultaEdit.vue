@@ -3,7 +3,7 @@
         <div>
             <q-card class="custom-card">
                 <q-card-section>
-                    <h5>Cadastrar Consulta</h5>
+                    <h5>Editar Consulta</h5>
                 </q-card-section>
             </q-card>
         </div>
@@ -47,7 +47,7 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-    name: 'formConsulta',
+    name: 'editConsulta',
 
     setup() {
         const form = ref({
