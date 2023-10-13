@@ -41,7 +41,7 @@ export default defineComponent({
         { name: 'tipo', field: 'tipo', label: 'Animal', sortable: true, align: 'left' },
         { name: 'contato', field: 'contato', label: 'Contato', sortable: true, align: 'left' },
         { name: 'data', field: 'data', label: 'Data', sortable: true, align: 'left' },
-        { name: 'status', field: 'status', label: 'Status', sortable: true, align: 'left' },
+        { name: 'status', field: 'status', label: 'Status', sortable: true, align: 'left', filter: true }, // Adicione o filtro à coluna 'status'
         { name: 'acoes', field: 'acoes', label: 'Ações', sortable: true, align: 'right' },
       ],
       rows: [
