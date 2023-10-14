@@ -8,7 +8,7 @@
         <span class="text-h5">Consultas <span class="text-h6" style="color: rgb(167, 167, 167);">({{ rows.length
         }})</span></span>
         <q-space />
-        <q-btn color="primary" :disable="loading" label="Cadastrar" :to="{ name: 'formConsulta' }" />
+        <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formConsulta' }" style="background-color: #26335d; width: 120px" />
       </template>
 
       <template v-slot:body-cell-acoes="props">

@@ -18,13 +18,13 @@ export default defineComponent({
       <div class="q-pa-md q-gutter-sm">
         <q-btn
           flat
-          style="color: #26335d"
+          style="color: #26335d; width: 120px"
           label="Login"
           text-color="white"
           no-caps
         />
         <q-btn
-          style="background: #1bc768; color: white"
+          style="background: #1bc768; color: white; width: 120px"
           label="Cadastre-se"
           no-caps
         />
