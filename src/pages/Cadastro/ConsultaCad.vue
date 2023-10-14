@@ -29,10 +29,10 @@
 
                         <div class="col-lg-12 col-xs-12 d-flex justify-end row">
                             <div>
-                                <q-btn label="Cancelar" :to="{ name: 'consultas' }" color="negative" />
+                                <q-btn no-caps label="Cancelar" :to="{ name: 'consultas' }" color="negative" style="width: 120px" />
                             </div>
                             <div class="q-ml-md">
-                                <q-btn label="Confirmar" type="submit" color="primary" />
+                                <q-btn class="text-white" no-caps label="Confirmar" type="submit" style="background-color: #26335d; width: 120px;" />
                             </div>
                         </div>
                     </q-form>
@@ -41,8 +41,8 @@
         </q-card>
     </q-page>
 </template>
-  
-  
+
+
 <script>
 import { defineComponent, ref } from 'vue'
 
@@ -77,4 +77,3 @@ export default defineComponent({
 }
 </style>
 
-  
