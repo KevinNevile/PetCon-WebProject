@@ -2,15 +2,15 @@
   <q-page class="q-pa-xl">
     <div class="row justify-center">
       <div class="col-12 col-md-6">
-        <div class="text-h4 q-mt-md q-mv-xl">Realizar Login</div>
+        <div class="text-h4 text-bold q-mt-md q-mv-xl">Realizar Login</div>
         <div class="text-subtitle1 text-grey-6 q-mt-md q-mv-xl">
           Se você já possue um cadastro, faça login com seu email e senha.
         </div>
-        <div class="q-my-xl">
+        <div class="q-my-xl text-grey-7">
           <h7>Endereço de Email</h7>
           <q-input outlined v-model="login.email" label="Email" />
         </div>
-        <div class="q-my-xl">
+        <div class="q-my-xl text-grey-7">
           <h7>Senha</h7>
           <q-input
             class="q-mt-sm"
@@ -27,11 +27,19 @@
               />
             </template>
           </q-input>
+          <div class="q-pa-md text-grey-6">
+            <q-checkbox v-model="val">Lembrar-se de mim</q-checkbox>
+          </div>
           <q-btn
             class="full-width"
-            style="background: #26335d; color: white"
+            style="background: #26335d; color: white; padding: 25px"
             label="Acessar"
           />
+        </div>
+        <div class="q-mt-md text-center">
+          Não possui uma conta?
+          <router-link to="Colocar aqui">Cadastre-se</router-link>
+          <!-- COLOCAR ROTA PARA SE CADASTRAR -->
         </div>
       </div>
     </div>
@@ -39,6 +47,8 @@
 </template>
 
 <script>
+import { ref } from "vue";
+
 export default {
   name: "PageLogin",
   data() {
@@ -50,6 +60,13 @@ export default {
       },
     };
   },
+
+  setup() {
+    return {
+      val: ref(false),
+    };
+  },
+
   methods: {},
 };
 </script>
