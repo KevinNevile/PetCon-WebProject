@@ -42,17 +42,21 @@ export default defineComponent({
   setup() {
     const columns = ref([
       { name: 'id', field: 'id', label: 'Id', sortable: true, align: 'left' },
-      { name: 'tipo', field: 'tipo', label: 'Animal', sortable: true, align: 'left' },
+      { name: 'tipo', field: 'tipo', label: 'Tipo do Animal', sortable: true, align: 'left' },
+      { name: 'nomeAnimal', field: 'nomeAnimal', label: 'Nome do Animal', sortable: true, align: 'left' },
       { name: 'contato', field: 'contato', label: 'Contato', sortable: true, align: 'left' },
+      { name: 'CPF', field: 'CPF', label: 'CPF do Cliente', sortable: true, align: 'left' },
+      { name: 'veterinario', field: 'veterinario', label: 'Veterinário', sortable: true, align: 'left' },
       { name: 'data', field: 'data', label: 'Data', sortable: true, align: 'left' },
       { name: 'status', field: 'status', label: 'Status', sortable: true, align: 'left', filter: true },
       { name: 'acoes', field: 'acoes', label: 'Ações', sortable: true, align: 'right' },
     ])
 
     const rows = ref([
-      { id: 1, tipo: 'Cachorro', contato: 'Email', data: '2023-10-20', status: 'Agendado' },
-      { id: 2, tipo: 'Gato', contato: 'Telefone', data: '2023-10-22', status: 'Concluído' },
-      { id: 3, tipo: 'Pássaro', contato: 'Email', data: '2023-10-25', status: 'Agendado' },
+      { id: 1, tipo: 'Cachorro', nomeAnimal: 'Caramelo', contato: '149985487954', CPF: '552487598', veterinario: 'Valdir', data: '14/10/2023', status: 'Agendado' },
+      { id: 2, tipo: 'Gato', nomeAnimal: 'Gloria', contato: '149985487954', CPF: '54875164874', veterinario: 'John Armeni', data: '11/10/2023', status: 'Concluído' },
+      { id: 3, tipo: 'Papagaio', nomeAnimal: 'Loro', contato: '149985487954', CPF: '2254894815', veterinario: 'Ludmilo', data: '09/10/2023', status: 'Agendado' },
+      { id: 4, tipo: 'Coelho', nomeAnimal: 'Jujuba', contato: '149985487954', CPF: '54852348745', veterinario: 'Curirim', data: '14/10/2023', status: 'Concluído' },
     ])
 
     const $q = useQuasar();
