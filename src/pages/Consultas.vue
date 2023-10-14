@@ -8,6 +8,9 @@
         <span class="text-h5">Consultas <span class="text-h6" style="color: rgb(167, 167, 167);">({{ rows.length
         }})</span></span>
         <q-space />
+        <div class="q-pa-md">
+          <q-input outlined class="col-lg-6 col-xs-12" filled v-model="filtroCPF" label="Filtrar por CPF" dense />
+        </div>
         <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formConsulta' }"
           style="background-color: #26335d; width: 120px" />
       </template>
@@ -20,8 +23,6 @@
           </q-btn>
         </q-td>
       </template>
-
-
 
       <template v-slot:body-cell-status="props">
         <q-td :props="props">
