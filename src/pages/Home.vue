@@ -22,6 +22,7 @@ export default defineComponent({
           label="Login"
           text-color="white"
           no-caps
+          @click="$router.push('/login')"
         />
         <q-btn
           style="background: #1bc768; color: white; width: 120px"
