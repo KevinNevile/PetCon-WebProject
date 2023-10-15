@@ -1,9 +1,7 @@
 <template>
   <q-page class="q-pa-xl login-background">
     <div class="q-mb-md">
-      <q-btn flat round icon="arrow_back" @click="$router.push('/')"
-        >Voltar</q-btn
-      >
+      <q-btn flat round icon="arrow_back" @click="$router.push('/')">Voltar</q-btn>
     </div>
 
     <div class="row justify-center">
@@ -18,29 +16,18 @@
         </div>
         <div class="q-my-xl text-grey-7">
           <h7>Senha</h7>
-          <q-input
-            class="q-mt-sm"
-            v-model="login.password"
-            outlined
-            label="Password"
-            :type="login.isPwd ? 'password' : 'text'"
-          >
+          <q-input class="q-mt-sm" v-model="login.password" outlined label="Password"
+            :type="login.isPwd ? 'password' : 'text'">
             <template v-slot:append>
-              <q-icon
-                :name="login.isPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="login.isPwd = !login.isPwd"
-              />
+              <q-icon :name="login.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                @click="login.isPwd = !login.isPwd" />
             </template>
           </q-input>
           <div class="q-pa-md text-grey-6">
             <q-checkbox v-model="val">Lembrar-se de mim</q-checkbox>
           </div>
-          <q-btn
-            class="full-width"
-            style="background: #26335d; color: white; padding: 25px"
-            label="Acessar"
-          />
+          <q-btn class="full-width" style="background: #26335d; color: white; padding: 25px" label="Acessar"
+            :to="{ name: 'consultas' }" />
         </div>
         <div class="q-mt-md text-center">
           Não possui uma conta?
