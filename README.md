@@ -10,5 +10,7 @@
 ## 📋 Objetivo
 Criar um site que facilite a gestão de uma clínica veterinária.
 
+Link para visualizar - [PetCon](pet-con-web-project.vercel.app)
+
 ## 👩🏽‍💻 Tecnologia
 * O projeto está sendo desenvolvido utilizando [Quasar](https://quasar.dev/), um framework para a construção de interfaces de usuário VueJS de alto desempenho.
