@@ -39,7 +39,7 @@ export default defineComponent({
       </div>
       <div class="col text-white flex flex-center" style="height: 720px">
         <div class="col-4">
-          <q-img src="src/assets/PetConImg.svg" style="height: 400px; width: 600px; border-radius: 36px" />
+          <q-img src="../../src/assets/PetConImg.svg" style="height: 400px; width: 600px; border-radius: 36px" />
         </div>
       </div>
     </div>
