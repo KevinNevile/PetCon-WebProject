@@ -8,14 +8,18 @@
         <span class="text-h5">Consultas <span class="text-h6" style="color: rgb(167, 167, 167);">({{ rows.length
         }})</span></span>
         <q-space />
-        <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formConsulta' }" style="background-color: #26335d; width: 120px" />
+        <div class="q-pa-md">
+          <q-input outlined class="col-lg-6 col-xs-12" filled v-model="filtroCPF" label="Filtrar por CPF" dense />
+        </div>
+        <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formConsulta' }"
+          style="background-color: #26335d; width: 120px" />
       </template>
 
       <template v-slot:body-cell-acoes="props">
         <q-td :props="props">
           <q-btn style="margin-right: 5px;" icon="edit" color="primary" dense :to="{ name: 'editConsulta' }">
           </q-btn>
-          <q-btn icon="delete" color="negative" dense @click="deleteRow(props.row.id)">
+          <q-btn icon="delete" color="negative" dense @click="confirm(props.row.id)">
           </q-btn>
         </q-td>
       </template>
@@ -30,35 +34,69 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { ref, defineComponent, onMounted } from 'vue'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'ConsultasPage',
-  data() {
-    return {
-      columns: [
-        { name: 'id', field: 'id', label: 'Id', sortable: true, align: 'left' },
-        { name: 'tipo', field: 'tipo', label: 'Animal', sortable: true, align: 'left' },
-        { name: 'contato', field: 'contato', label: 'Contato', sortable: true, align: 'left' },
-        { name: 'data', field: 'data', label: 'Data', sortable: true, align: 'left' },
-        { name: 'status', field: 'status', label: 'Status', sortable: true, align: 'left', filter: true }, // Adicione o filtro à coluna 'status'
-        { name: 'acoes', field: 'acoes', label: 'Ações', sortable: true, align: 'right' },
-      ],
-      rows: [
-        { id: 1, tipo: 'Cachorro', contato: 'Email', data: '2023-10-20', status: 'Agendado' },
-        { id: 2, tipo: 'Gato', contato: 'Telefone', data: '2023-10-22', status: 'Concluído' },
-        { id: 3, tipo: 'Pássaro', contato: 'Email', data: '2023-10-25', status: 'Agendado' },
-      ],
+
+  setup() {
+    const columns = ref([
+      { name: 'id', field: 'id', label: 'Id', sortable: true, align: 'left' },
+      { name: 'tipo', field: 'tipo', label: 'Tipo do Animal', sortable: true, align: 'left' },
+      { name: 'nomeAnimal', field: 'nomeAnimal', label: 'Nome do Animal', sortable: true, align: 'left' },
+      { name: 'contato', field: 'contato', label: 'Contato', sortable: true, align: 'left' },
+      { name: 'CPF', field: 'CPF', label: 'CPF do Cliente', sortable: true, align: 'left' },
+      { name: 'veterinario', field: 'veterinario', label: 'Veterinário', sortable: true, align: 'left' },
+      { name: 'data', field: 'data', label: 'Data', sortable: true, align: 'left' },
+      { name: 'status', field: 'status', label: 'Status', sortable: true, align: 'left', filter: true },
+      { name: 'acoes', field: 'acoes', label: 'Ações', sortable: true, align: 'right' },
+    ])
+
+    const rows = ref([
+      { id: 1, tipo: 'Cachorro', nomeAnimal: 'Caramelo', contato: '149985487954', CPF: '552487598', veterinario: 'Valdir', data: '14/10/2023', status: 'Agendado' },
+      { id: 2, tipo: 'Gato', nomeAnimal: 'Gloria', contato: '149985487954', CPF: '54875164874', veterinario: 'John Armeni', data: '11/10/2023', status: 'Concluído' },
+      { id: 3, tipo: 'Papagaio', nomeAnimal: 'Loro', contato: '149985487954', CPF: '2254894815', veterinario: 'Ludmilo', data: '09/10/2023', status: 'Agendado' },
+      { id: 4, tipo: 'Coelho', nomeAnimal: 'Jujuba', contato: '149985487954', CPF: '54852348745', veterinario: 'Curirim', data: '14/10/2023', status: 'Concluído' },
+    ])
+
+    const $q = useQuasar();
+
+    const confirm = (id) => {
+
+      $q.dialog({
+        title: 'Confirmar',
+        message: 'Tem certeza que deseja excluir?',
+        ok: 'Sim',
+        cancel: 'Cancelar'
+      }).onOk(() => {
+        deleteRow(id)
+        $q.notify({
+          message: 'Excluído com sucesso.',
+          color: 'secondary'
+        })
+      })
     }
-  },
-  methods: {
-    deleteRow(id) {
-      const index = this.rows.findIndex(row => row.id === id);
+
+    const deleteRow = (id) => {
+      const index = rows.value.findIndex(row => row.id === id)
 
       if (index !== -1) {
-        this.rows.splice(index, 1);
+        rows.value.splice(index, 1)
       }
+    }
+
+    onMounted(() => {
+
+    })
+
+    return {
+      columns,
+      rows,
+      confirm,
     }
   }
 })
 </script>
+
+
