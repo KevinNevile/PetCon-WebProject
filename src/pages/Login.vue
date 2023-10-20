@@ -12,11 +12,11 @@
         </div>
         <div class="q-my-xl text-grey-7">
           <h7>Endereço de Email</h7>
-          <q-input outlined v-model="login.email" label="Email" />
+          <q-input class="q-mt-sm" outlined v-model="login.email" label="Email" />
         </div>
         <div class="q-my-xl text-grey-7">
           <h7>Senha</h7>
-          <q-input class="q-mt-sm" v-model="login.password" outlined label="Password"
+          <q-input class="q-mt-sm" v-model="login.password" outlined label="Senha"
             :type="login.isPwd ? 'password' : 'text'">
             <template v-slot:append>
               <q-icon :name="login.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
@@ -31,8 +31,7 @@
         </div>
         <div class="q-mt-md text-center">
           Não possui uma conta?
-          <router-link to="Colocar aqui">Cadastre-se</router-link>
-          <!-- COLOCAR ROTA PARA SE CADASTRAR -->
+          <router-link :to="{ name: 'cadastro' }">Cadastre-se</router-link>
         </div>
       </div>
     </div>
