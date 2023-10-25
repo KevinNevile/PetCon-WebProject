@@ -10,12 +10,20 @@ const routes = [
   {
     path: "/login",
     component: () => import("layouts/LoginLayout.vue"),
-    children: [{ path: "", name: "login", component: () => import("pages/Login.vue") }],
+    children: [
+      { path: "", name: "login", component: () => import("pages/Login.vue") },
+    ],
   },
   {
     path: "/cadastro",
     component: () => import("layouts/LoginLayout.vue"),
-    children: [{ path: "", name: "cadastro", component: () => import("pages/Cadastro.vue") }],
+    children: [
+      {
+        path: "",
+        name: "cadastro",
+        component: () => import("pages/Cadastro.vue"),
+      },
+    ],
   },
   {
     path: "/",
@@ -27,14 +35,29 @@ const routes = [
         component: () => import("pages/Consultas.vue"),
       },
       {
+        path: "clientes",
+        name: "clientes",
+        component: () => import("pages/Clientes.vue"),
+      },
+      {
         path: "CadastrarConsulta",
         name: "formConsulta",
         component: () => import("pages/Cadastro/ConsultaCad.vue"),
       },
       {
+        path: "CadastrarCliente",
+        name: "formCliente",
+        component: () => import("pages/Cadastro/ClienteCad.vue"),
+      },
+      {
         path: "EditarConsulta",
         name: "editConsulta",
         component: () => import("pages/Editar/ConsultaEdit.vue"),
+      },
+      {
+        path: "EditarCliente",
+        name: "editCliente",
+        component: () => import("pages/Editar/ClienteEdit.vue"),
       },
     ],
   },

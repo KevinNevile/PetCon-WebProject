@@ -3,7 +3,7 @@
     <div>
       <q-card class="custom-card">
         <q-card-section>
-          <h5>Editar Consulta</h5>
+          <h5>Cadastrar Cliente</h5>
         </q-card-section>
       </q-card>
     </div>
@@ -19,11 +19,11 @@
               outlined
               class="col-lg-6 col-xs-12"
               filled
-              v-model="form.data"
-              label="Data *"
+              v-model="form.nome"
+              label="Nome *"
               lazy-rules
               :rules="[
-                (val) => (val && val.length > 0) || 'Digite a Data da Consulta',
+                (val) => (val && val.length > 0) || 'Digite o nome do cliente ',
               ]"
             />
 
@@ -31,12 +31,12 @@
               outlined
               class="col-lg-6 col-xs-12"
               filled
-              v-model="form.veterinario"
-              label="Veterinário *"
+              v-model="form.sobrenome"
+              label="Sobrenome *"
               lazy-rules
               :rules="[
                 (val) =>
-                  (val && val.length > 0) || 'Digite o Veterinário da Consulta',
+                  (val && val.length > 0) || 'Digite o sobrenome do cliente',
               ]"
             />
 
@@ -44,25 +44,29 @@
               outlined
               class="col-lg-6 col-xs-12"
               filled
-              v-model="form.animal"
-              label="Animal *"
+              v-model="form.cpf"
+              label="CPF *"
               lazy-rules
               :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Digite o Animal da Consulta',
+                (val) => (val && val.length > 0) || 'Digite um CPF válido',
               ]"
             />
-
             <q-input
               outlined
               class="col-lg-6 col-xs-12"
               filled
-              v-model="form.cliente"
-              label="CPF Cliente *"
+              v-model="form.telefone"
+              label="Telefone"
+            />
+            <q-input
+              outlined
+              class="col-lg-12 col-xs-12"
+              filled
+              v-model="form.email"
+              label="E-mail *"
               lazy-rules
               :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Digite o Animal da Consulta',
+                (val) => (val && val.length > 0) || 'Digite um e-mail válido',
               ]"
             />
 
@@ -73,19 +77,19 @@
             <div class="col-lg-12 col-xs-12 d-flex justify-end row">
               <div>
                 <q-btn
-                  label="Cancelar"
                   no-caps
-                  :to="{ name: 'consultas' }"
+                  label="Cancelar"
+                  :to="{ name: 'clientes' }"
                   color="negative"
                   style="width: 120px"
                 />
               </div>
               <div class="q-ml-md">
                 <q-btn
-                  label="Confirmar"
-                  no-caps
-                  type="submit"
                   class="text-white"
+                  no-caps
+                  label="Confirmar"
+                  type="submit"
                   style="background-color: #26335d; width: 120px"
                 />
               </div>
@@ -101,15 +105,15 @@
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: "editConsulta",
+  name: "formCliente",
 
   setup() {
     const form = ref({
-      data: "",
-      descricao: "",
-      animal: "",
+      nome: "",
+      sobrenome: "",
+      email: "",
       cpf: "",
-      cliente: "",
+      telefone: "",
     });
     return {
       form,
