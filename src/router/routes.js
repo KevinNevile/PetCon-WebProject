@@ -59,6 +59,21 @@ const routes = [
         name: "editCliente",
         component: () => import("pages/Editar/ClienteEdit.vue"),
       },
+      {
+        path: "veterinarios",
+        name: "veterinarios",
+        component: () => import("pages/Veterinarios.vue"),
+      },
+      {
+        path: "CadastrarVeterinario",
+        name: "formVeterinario",
+        component: () => import("pages/Cadastro/VeterinarioCad.vue"),
+      },
+      {
+        path: "EditarVeterinario",
+        name: "editVeterinario",
+        component: () => import("pages/Editar/VeterinarioEdit.vue"),
+      },
     ],
   },
   {
