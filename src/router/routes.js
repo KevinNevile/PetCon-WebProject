@@ -50,7 +50,7 @@ const routes = [
         component: () => import("pages/Cadastro/ClienteCad.vue"),
       },
       {
-        path: "EditarConsulta",
+        path: "EditarConsulta/:id",
         name: "editConsulta",
         component: () => import("pages/Editar/ConsultaEdit.vue"),
       },
