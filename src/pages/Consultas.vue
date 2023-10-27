@@ -45,6 +45,9 @@ export default defineComponent({
 
   setup() {
 
+    const rows = ref([])
+    const filtroCPF = ref('');
+
     const getStatusBadgeColor = (status) => {
       console.log('status', status)
       return status === 'Concluído' ? 'red' : 'green';
@@ -62,10 +65,6 @@ export default defineComponent({
 
       { name: 'acoes', field: 'acoes', label: 'Ações', sortable: true, align: 'right' },
     ])
-
-    const rows = ref([])
-    const filtroCPF = ref('');
-
 
     const fetchData = async () => {
       try {
