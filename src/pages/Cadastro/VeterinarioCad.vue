@@ -60,24 +60,24 @@
               class="col-lg-6 col-xs-12"
               filled
               v-model="form.email"
-              label="Email *"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Digite o Email do Veterinário',
-              ]"
-            />
-
-            <q-input
-              outlined
-              class="col-lg-6 col-xs-12"
-              filled
-              v-model="form.contato"
               label="Contato *"
               lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) || 'Digite o Contato do Veterinário',
+              ]"
+            />
+
+            <q-input
+              outlined
+              class="col-lg-12 col-xs-12"
+              filled
+              v-model="form.contato"
+              label="E-mail *"
+              lazy-rules
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) || 'Digite o E-mail do Veterinário',
               ]"
             />
 
