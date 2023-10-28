@@ -52,12 +52,12 @@ export default defineComponent({
     const getStatusBadgeColor = (status) => {
       console.log('status', status)
       switch (status) {
-        case 'Concluído':
+        case 'Concluída':
           return 'green';
         case 'Cancelada':
           return 'red';
         default:
-          return 'yellow';
+          return 'orange';
       }
     };
 
