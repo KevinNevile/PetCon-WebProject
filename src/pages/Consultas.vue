@@ -20,7 +20,8 @@
           <q-btn style="margin-right: 5px;" icon="edit" color="primary" dense
             :to="{ name: 'editConsulta', params: { id: props.row.IdConsulta } }">
           </q-btn>
-          <q-btn icon="delete" color="negative" dense @click="confirm(props.row.id)">
+          <q-btn v-if="props.row.Status != 'Cancelada'" icon="delete" color="negative" dense
+            @click="confirm(props.row.IdConsulta)">
           </q-btn>
         </q-td>
       </template>
@@ -50,7 +51,14 @@ export default defineComponent({
 
     const getStatusBadgeColor = (status) => {
       console.log('status', status)
-      return status === 'Concluído' ? 'red' : 'green';
+      switch (status) {
+        case 'Concluído':
+          return 'green';
+        case 'Cancelada':
+          return 'red';
+        default:
+          return 'yellow';
+      }
     };
 
     const columns = ref([
@@ -105,24 +113,25 @@ export default defineComponent({
 
       $q.dialog({
         title: 'Confirmar',
-        message: 'Tem certeza que deseja excluir?',
+        message: 'Tem certeza que deseja Cancelar a Consulta?',
         ok: 'Sim',
-        cancel: 'Cancelar'
+        cancel: 'Não'
       }).onOk(() => {
         deleteRow(id)
-        $q.notify({
-          message: 'Excluído com sucesso.',
-          color: 'secondary'
-        })
       })
     }
 
-    const deleteRow = (id) => {
-      const index = rows.value.findIndex(row => row.id === id)
+    const deleteRow = async (id) => {
+      const response = await api.delete(`/api/Consulta/${id}`);
 
-      if (index !== -1) {
-        rows.value.splice(index, 1)
-      }
+      console.log('Response:', response);
+      $q.notify({
+        message: 'Consulta Cancelada com sucesso.',
+        color: 'secondary'
+      })
+
+      fetchData()
+
     }
 
     onMounted(() => {
