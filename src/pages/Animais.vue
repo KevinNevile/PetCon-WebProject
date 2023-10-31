@@ -20,8 +20,8 @@
                     <q-btn style="margin-right: 5px;" icon="edit" color="primary" dense
                         :to="{ name: 'editConsulta', params: { id: props.row.clienteId } }">
                     </q-btn>
-                    <q-btn v-if="props.row.Status != 'Cancelada'" icon="delete" color="negative" dense
-                        @click="confirm(props.row.clienteId, props.row.animalId)">
+                    <q-btn v-if="props.row.ativo != false" icon="delete" color="negative" dense
+                        @click="confirm(props.row.animalId)">
                     </q-btn>
                 </q-td>
             </template>
@@ -29,6 +29,12 @@
             <template v-slot:body-cell-sexo="props">
                 <q-td :props="props">
                     <q-badge :color="getSexoBadgeColor(props.row.sexo)">{{ props.row.sexo }}</q-badge>
+                </q-td>
+            </template>
+
+            <template v-slot:body-cell-ativo="props">
+                <q-td :props="props">
+                    <q-badge :color="getStatusBadgeColor(props.row.ativo)">{{ props.row.ativo }}</q-badge>
                 </q-td>
             </template>
 
@@ -50,12 +56,21 @@ export default defineComponent({
         const filtroCPF = ref('');
 
         const getSexoBadgeColor = (sexo) => {
-            console.log('status', sexo)
             switch (sexo) {
                 case 'Macho':
                     return 'blue';
                 case 'Fêmea':
                     return 'pink';
+            }
+        };
+
+        const getStatusBadgeColor = (status) => {
+            console.log('status', status)
+            switch (status) {
+                case true:
+                    return 'green';
+                case false:
+                    return 'red';
             }
         };
 
@@ -67,6 +82,7 @@ export default defineComponent({
             { name: 'sexo', field: 'sexo', label: 'Sexo do Animal', sortable: true, align: 'left' },
             { name: 'clienteNome', field: 'clienteNome', label: 'Nome do Cliente', sortable: true, align: 'left' },
             { name: 'cpfCliente', field: 'cpfCliente', label: 'CPF do Cliente', sortable: true, align: 'left' },
+            { name: 'ativo', field: 'ativo', label: 'status do Animal', sortable: true, align: 'left' },
             { name: 'idade', field: 'idade', label: 'Idade do Animal', sortable: true, align: 'left' },
 
             { name: 'acoes', field: 'acoes', label: 'Ações', sortable: true, align: 'right' },
@@ -103,30 +119,30 @@ export default defineComponent({
 
         const $q = useQuasar();
 
-        // const confirm = (idCliente, idAnimal) => {
+        const confirm = (idAnimal) => {
 
-        //     $q.dialog({
-        //         title: 'Confirmar',
-        //         message: 'Tem certeza que deseja Excluir o Animal?',
-        //         ok: 'Sim',
-        //         cancel: 'Não'
-        //     }).onOk(() => {
-        //         deleteRow(id)
-        //     })
-        // }
+            $q.dialog({
+                title: 'Confirmar',
+                message: 'Tem certeza que deseja Excluir este Animal?',
+                ok: 'Sim',
+                cancel: 'Não'
+            }).onOk(() => {
+                deleteRow(idAnimal)
+            })
+        }
 
-        // const deleteRow = async (id) => {
-        //     const response = await api.delete(`/api/Consulta/${id}`);
+        const deleteRow = async (id) => {
+            const response = await api.delete(`/api/Animal/${id}`);
 
-        //     console.log('Response:', response);
-        //     $q.notify({
-        //         message: 'Consulta Cancelada com sucesso.',
-        //         color: 'secondary'
-        //     })
+            console.log('Response:', response);
+            $q.notify({
+                message: 'Animal Inativado com sucesso.',
+                color: 'secondary'
+            })
 
-        //     fetchData()
+            fetchData()
 
-        // }
+        }
 
         onMounted(() => {
             fetchData()
@@ -135,9 +151,10 @@ export default defineComponent({
         return {
             columns,
             rows,
-            //confirm,
+            confirm,
             filtroCPF,
             getSexoBadgeColor,
+            getStatusBadgeColor
         }
     }
 })
