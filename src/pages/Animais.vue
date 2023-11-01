@@ -11,14 +11,14 @@
                 <div class="q-pa-md">
                     <q-input outlined class="col-lg-6 col-xs-12" filled v-model="filtroCPF" label="Filtrar por CPF" dense />
                 </div>
-                <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formAnimal' }"
+                <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formAnimais' }"
                     style="background-color: #26335d; width: 120px" />
             </template>
 
             <template v-slot:body-cell-acoes="props">
                 <q-td :props="props">
                     <q-btn style="margin-right: 5px;" icon="edit" color="primary" dense
-                        :to="{ name: 'editConsulta', params: { id: props.row.clienteId } }">
+                        :to="{ name: 'editAnimal', params: { idCliente: props.row.clienteId, idAnimal: props.row.animalId } }">
                     </q-btn>
                     <q-btn v-if="props.row.ativo != false" icon="delete" color="negative" dense
                         @click="confirm(props.row.animalId)">

@@ -55,6 +55,11 @@ const routes = [
         component: () => import("pages/Cadastro/ClienteCad.vue"),
       },
       {
+        path: "CadastrarAnimal",
+        name: "formAnimais",
+        component: () => import("pages/Cadastro/AnimalCad.vue"),
+      },
+      {
         path: "EditarConsulta/:id",
         name: "editConsulta",
         component: () => import("pages/Editar/ConsultaEdit.vue"),
@@ -78,6 +83,11 @@ const routes = [
         path: "EditarVeterinario",
         name: "editVeterinario",
         component: () => import("pages/Editar/VeterinarioEdit.vue"),
+      },
+      {
+        path: "EditarAnimal/:idCliente/:idAnimal",
+        name: "editAnimal",
+        component: () => import("pages/Editar/AnimalEdit.vue"),
       },
     ],
   },
