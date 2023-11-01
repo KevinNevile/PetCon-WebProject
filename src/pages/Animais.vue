@@ -18,7 +18,7 @@
             <template v-slot:body-cell-acoes="props">
                 <q-td :props="props">
                     <q-btn style="margin-right: 5px;" icon="edit" color="primary" dense
-                        :to="{ name: 'editConsulta', params: { id: props.row.clienteId } }">
+                        :to="{ name: 'editAnimal', params: { idCliente: props.row.clienteId, idAnimal: props.row.animalId } }">
                     </q-btn>
                     <q-btn v-if="props.row.ativo != false" icon="delete" color="negative" dense
                         @click="confirm(props.row.animalId)">

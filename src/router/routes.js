@@ -79,6 +79,11 @@ const routes = [
         name: "editVeterinario",
         component: () => import("pages/Editar/VeterinarioEdit.vue"),
       },
+      {
+        path: "EditarAnimal/:idCliente/:idAnimal",
+        name: "editAnimal",
+        component: () => import("pages/Editar/AnimalEdit.vue"),
+      },
     ],
   },
   {
