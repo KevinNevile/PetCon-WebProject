@@ -11,7 +11,7 @@
                 <div class="q-pa-md">
                     <q-input outlined class="col-lg-6 col-xs-12" filled v-model="filtroCPF" label="Filtrar por CPF" dense />
                 </div>
-                <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formAnimal' }"
+                <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formAnimais' }"
                     style="background-color: #26335d; width: 120px" />
             </template>
 

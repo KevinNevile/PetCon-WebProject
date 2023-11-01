@@ -3,7 +3,7 @@
         <div>
             <q-card class="custom-card">
                 <q-card-section>
-                    <h5>Editar Animal</h5>
+                    <h5>Cadastrar Animal</h5>
                 </q-card-section>
             </q-card>
         </div>
@@ -21,17 +21,20 @@
                         <q-input outlined class="col-lg-6 col-xs-12" filled v-model="form.tipo" label="Tipo do Animal *"
                             lazy-rules :rules="[val => val && val.length > 0 || 'Digite o Tipo do Animal (cão, gato)']" />
 
-
                         <q-input outlined class="col-lg-6 col-xs-12" filled v-model="form.idade" label="Idade do Animal *"
                             lazy-rules :rules="[val => val && val.length > 0 || 'Digite a Idade do Animal']"
                             type="number" />
 
-                        <q-select outlined class="col-lg-12 col-xs-12" v-model="form.sexo" label="Sexo do Animal"
+                        <q-select outlined class="col-lg-6 col-xs-12" v-model="form.sexo" label="Sexo do Animal"
                             :options="options" lazy-rules :rules="[val => val !== null || 'Selecione o sexo do Animal']" />
+
+                        <q-select outlined class="col-lg-6 col-xs-12" v-model="selectedClient" label="CPF do Cliente"
+                            :options="clients.map(client => ({ label: `${client.cpf} - ${client.nome}`, value: client.userId }))"
+                            lazy-rules :rules="[val => val !== null || 'Selecione um Cliente para esse animal']" />
 
                         <div class="col-lg-12 col-xs-12 d-flex justify-end row">
                             <div>
-                                <q-btn no-caps label="Cancelar" :to="{ name: 'consultas' }" color="negative"
+                                <q-btn no-caps label="Cancelar" :to="{ name: 'animais' }" color="negative"
                                     style="width: 120px" />
                             </div>
                             <div class="q-ml-md">
@@ -45,19 +48,20 @@
         </q-card>
     </q-page>
 </template>
-  
+
+
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
-import { api } from "src/boot/axios";
-import { useRoute } from "vue-router";
+import { ref, onMounted } from 'vue'
+import { api } from 'src/boot/axios';
 import { useQuasar } from 'quasar'
 
-export default defineComponent({
-    name: "editAnimal",
+export default {
+    name: 'formAnimais',
 
     setup() {
-        const route = useRoute();
         const $q = useQuasar();
+        const clients = ref([]);
+        const selectedClient = ref(null);
         const form = ref({
             nomeAnimal: '',
             raca: null,
@@ -65,83 +69,80 @@ export default defineComponent({
             tipo: null,
             idade: null
         });
-        //COMPLETAR OS CAMPOS COM AS INFORMAÇÕES DO ANIMAL
-        const fetchData = async () => {
-            try {
-                const animalId = route.params.idAnimal;
-                const response = await api.get(`api/Animal/${animalId}`);
-                const animalData = response.data;
 
-                form.value.nomeAnimal = animalData.nome;
-                form.value.raca = animalData.raca;
-                form.value.tipo = animalData.tipo;
-                form.value.sexo = animalData.sexo;
-                form.value.idade = animalData.idade;
-
-            } catch (error) {
-                console.error("Erro ao buscar dados:", error);
-            }
-        };
-
-        //FAZER UMA REQUISIÇÃO DE EDITAR
-        const editar = async () => {
-            const animalId = parseInt(route.params.idAnimal, 10);
-            const clienteId = parseInt(route.params.idCliente, 10);
-
-            const requestBody = {
-                animalId: animalId,
+        const submit = async () => {
+            const body = {
                 nome: form.value.nomeAnimal,
                 raca: form.value.raca,
                 sexo: form.value.sexo,
                 tipo: form.value.tipo,
-                idade: form.value.idade,
+                idade: parseFloat(form.value.idade),
                 ativo: true,
-                clienteId: clienteId,
             };
 
             try {
-                const response = await api.put('/api/Animal', requestBody);
-
+                const response = await api.post(`api/Cliente/IncluirAnimal?id=${selectedClient.value.value}`, body);
+                console.log(body)
                 console.log('Response:', response);
 
                 $q.notify({
-                    message: 'Editado com sucesso.',
+                    message: 'Cadastrado com sucesso.',
                     color: 'secondary'
                 });
 
             } catch (error) {
-                console.error('Erro ao editar animal:', error);
+                console.error('Erro ao cadastrar animal:', error);
             }
         };
 
+        const fetchClients = async () => {
+            try {
+                const response = await api.get('/api/Cliente');
+                clients.value = response.data.$values;
+            } catch (error) {
+                console.error('Erro ao buscar clientes:', error);
+            }
+        };
 
         const confirm = () => {
 
             $q.dialog({
                 title: 'Confirmar',
-                message: 'Tem certeza que deseja editar a Consulta?',
+                message: 'Tem certeza que deseja cadastrar?',
                 ok: 'Sim',
-                cancel: 'Não'
+                cancel: 'Cancelar'
             }).onOk(() => {
-                editar();
+                submit();
             })
         }
 
+        const onReset = () => {
+            form.value.nomeAnimal = ' ';
+            form.value.raca = ' ';
+            form.value.sexo = ' ';
+            form.value.tipo = ' ';
+            form.value.idade = ' ';
+            selectedClient.value = null;
+        };
+
         onMounted(() => {
-            fetchData();
+            fetchClients();
         });
 
         return {
+            clients,
+            selectedClient,
             form,
+            confirm,
+            onReset,
             options: [
                 'Macho', 'Fêmea'
             ],
-            confirm,
         };
     },
-});
+};
 </script>
-  
+
 <style scoped>
 .custom-card {
     height: 70px;
@@ -153,4 +154,4 @@ export default defineComponent({
     margin-bottom: 20px;
 }
 </style>
-  
+
