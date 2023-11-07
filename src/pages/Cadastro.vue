@@ -12,55 +12,68 @@
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Nome</h7>
-          <q-input class="q-mt-sm" outlined v-model="login.email" label="Nome" />
+          <q-input class="q-mt-sm" outlined v-model="cadastro.nome" label="Nome" />
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Sobrenome</h7>
-          <q-input class="q-mt-sm" outlined v-model="login.email" label="Sobrenome" />
+          <q-input class="q-mt-sm" outlined v-model="cadastro.sobrenome" label="Sobrenome" />
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Email</h7>
-          <q-input class="q-mt-sm" outlined v-model="login.email" label="Email" />
+          <q-input class="q-mt-sm" outlined v-model="cadastro.email" label="Email" />
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Senha</h7>
-          <q-input class="q-mt-sm" v-model="login.password" outlined label="Senha"
-            :type="login.isPwd ? 'password' : 'text'">
+          <q-input class="q-mt-sm" v-model="cadastro.password" outlined label="Senha"
+            :type="cadastro.isPwd ? 'password' : 'text'" @input="clearErrorMessage">
             <template v-slot:append>
-              <q-icon :name="login.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
-                @click="login.isPwd = !login.isPwd" />
+              <q-icon :name="cadastro.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                @click="cadastro.isPwd = !cadastro.isPwd" />
             </template>
           </q-input>
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Confirmar Senha</h7>
-          <q-input class="q-mt-sm" v-model="login.password" outlined label="Confirmar Senha"
-            :type="login.isPwd ? 'password' : 'text'">
+          <q-input class="q-mt-sm" v-model="cadastro.confirmPassword" outlined label="Confirmar Senha"
+            :type="cadastro.isPwd ? 'password' : 'text'" @input="clearErrorMessage">
             <template v-slot:append>
-              <q-icon :name="login.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
-                @click="login.isPwd = !login.isPwd" />
+              <q-icon :name="cadastro.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
+                @click="cadastro.isPwd = !cadastro.isPwd" />
             </template>
           </q-input>
           <q-btn class="full-width q-mt-xl" style="background: #26335d; color: white; padding: 25px" label="Cadastrar"
-            :to="{ name: 'login' }" />
+            @click="registerClinic" />
+            <!--   -->
+            <p v-if="passwordsDoNotMatch" class="error-message" style="color: red;">As senhas não coincidem.</p>
+            <p v-if="successMessage" class="success-message" :href="navigateToLogin()" style="color: green;">{{ successMessage }} </p>
         </div>
       </div>
+      <div class="q-my-lg text-grey-7">
+    </div>
     </div>
   </q-page>
 </template>
 
 <script>
 import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default {
-  name: "PageLogin",
+  name: "PageCadastro",
   data() {
     return {
-      login: {
+      cadastro: {
+        nome: "",
+        sobrenome: "",
         email: "",
         password: "",
+        confirmPassword: "",
         isPwd: true,
       },
+      successMessage: "",
+      passwordsDoNotMatch: false,
+      errorMessage: "",
     };
   },
 
@@ -70,7 +83,50 @@ export default {
     };
   },
 
-  methods: {},
+  methods: {
+    registerClinic() {
+
+      if (this.cadastro.password !== this.cadastro.confirmPassword) {
+      this.passwordsDoNotMatch = true;
+      this.successMessage = "";
+      this.errorMessage = "As senhas não coincidem.";
+      return;
+      }
+
+      const clinicData = {
+        Nome: this.cadastro.nome,
+        Email: this.cadastro.email,
+        SenhaAcesso: this.cadastro.password,
+      };
+
+      axios
+      //ALTERAR NOMES
+        .post("https://localhost:7127/api/Clinica/Create", clinicData)
+        .then((response) => {
+          console.log("Registrado com sucesso:", response.data);
+          this.successMessage = "Cadastrado com sucesso";
+          this.passwordsDoNotMatch = false;
+          this.errorMessage = ""; 
+          setTimeout(() => {
+            this.navigateToLogin(), 2000;
+          });
+        })
+        .catch((error) => {
+          console.error("Erro no cadastro:", error);
+        });
+    },
+
+    navigateToLogin() {
+      const router = useRouter();
+      router.push({ name: 'login' });
+    },
+
+    clearErrorMessage() {
+    this.passwordsDoNotMatch = false;
+    this.errorMessage = "";
+    },
+
+  },
 };
 </script>
 
