@@ -37,9 +37,9 @@ export default defineComponent({
         const getStatusBadgeColor = (status) => {
             console.log('status', status)
             switch (status) {
-                case true:
+                case 'Ativo':
                     return 'green';
-                case false:
+                case 'Inativo':
                     return 'red';
             }
         };
@@ -68,6 +68,7 @@ export default defineComponent({
                     const clientResponse = await api.get(`/api/Cliente/${animal.clienteId}`);
                     animal.clienteNome = `${clientResponse.data.nome} ${clientResponse.data.sobrenome}`;
                     animal.cpfCliente = clientResponse.data.cpf
+                    animal.ativo = animal.ativo ? 'Ativo' : 'Inativo';
                     return animal;
                 });
 
