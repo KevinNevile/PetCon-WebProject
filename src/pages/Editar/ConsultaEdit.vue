@@ -11,8 +11,9 @@
       <q-card-section>
         <div class="q-pa-md">
           <q-form @submit="onSubmit" @reset="onReset" class="row q-col-gutter-sm">
-            <q-input mask="##/##/####" fill-mask outlined class="col-lg-6 col-xs-12" filled v-model="form.dataConsulta"
-              label="Data *" lazy-rules :rules="[val => val && val.length > 0 || 'Digite a Data da Consulta']" />
+            <q-input mask="##/##/#### ##:##" fill-mask outlined class="col-lg-6 col-xs-12" filled
+              v-model="form.dataConsulta" label="Data *" lazy-rules
+              :rules="[val => val && val.length > 0 || 'Digite a Data da Consulta']" />
 
             <q-select outlined class="col-lg-6 col-xs-12" v-model="form.idVeterinario" label="Veterinário *"
               :options="veterinarios.map(vet => ({ label: `${vet.cpf} - ${vet.nome}`, value: vet.userId }))"
