@@ -31,7 +31,7 @@
 
                         <div class="col-lg-12 col-xs-12 d-flex justify-end row">
                             <div>
-                                <q-btn no-caps label="Cancelar" :to="{ name: 'consultas' }" color="negative"
+                                <q-btn no-caps label="Cancelar" :to="{ name: 'animais' }" color="negative"
                                     style="width: 120px" />
                             </div>
                             <div class="q-ml-md">

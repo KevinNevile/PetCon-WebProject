@@ -1,44 +1,14 @@
 <template>
     <q-page padding>
-        <q-table :title="'Animais (' + rows.length + ')'" :rows="rows" :columns="columns" row-key="id">
-            <template v-slot:header-cell-acoes="props">
-                <q-th :props="props">Ações</q-th>
-            </template>
-            <template v-slot:top>
-                <span class="text-h5">Animais <span class="text-h6" style="color: rgb(167, 167, 167);">({{ rows.length
-                }})</span></span>
-                <q-space />
-                <div class="q-pa-md">
-                    <q-input outlined class="col-lg-6 col-xs-12" filled v-model="filtroCPF" label="Filtrar por CPF" dense />
-                </div>
-                <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formAnimais' }"
-                    style="background-color: #26335d; width: 120px" />
-            </template>
-
-            <template v-slot:body-cell-acoes="props">
-                <q-td :props="props">
-                    <q-btn style="margin-right: 5px;" icon="edit" color="primary" dense
-                        :to="{ name: 'editAnimal', params: { idCliente: props.row.clienteId, idAnimal: props.row.animalId } }">
-                    </q-btn>
-                    <q-btn v-if="props.row.ativo != false" icon="delete" color="negative" dense
-                        @click="confirm(props.row.animalId)">
-                    </q-btn>
-                </q-td>
-            </template>
-
-            <template v-slot:body-cell-sexo="props">
-                <q-td :props="props">
-                    <q-badge :color="getSexoBadgeColor(props.row.sexo)">{{ props.row.sexo }}</q-badge>
-                </q-td>
-            </template>
-
-            <template v-slot:body-cell-ativo="props">
-                <q-td :props="props">
-                    <q-badge :color="getStatusBadgeColor(props.row.ativo)">{{ props.row.ativo }}</q-badge>
-                </q-td>
-            </template>
-
-        </q-table>
+        <q-card class="custom-card q-pa-md">
+            <q-card-section>
+                <q-input outlined filled v-model="filtroCPF" label="Filtrar por CPF" dense mask="###.###.###-##" fill-mask
+                    unmasked-value />
+            </q-card-section>
+        </q-card>
+        <AnimaisTable :type="'Animais'" :formEdit="'editAnimal'" :params="{ idCliente: 'clienteId', idAnimal: 'animalId' }"
+            :formCad="'formAnimais'" :rows="rows" :columns="columns" :getSexoBadgeColor="getSexoBadgeColor"
+            :getStatusBadgeColor="getStatusBadgeColor" :confirm="confirm" />
     </q-page>
 </template>
   
@@ -46,7 +16,7 @@
 import { ref, defineComponent, onMounted, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { api } from 'src/boot/axios'
-
+import AnimaisTable from "src/components/TableVue.vue";
 export default defineComponent({
     name: 'AnimaisPage',
 
@@ -67,9 +37,9 @@ export default defineComponent({
         const getStatusBadgeColor = (status) => {
             console.log('status', status)
             switch (status) {
-                case true:
+                case 'Ativo':
                     return 'green';
-                case false:
+                case 'Inativo':
                     return 'red';
             }
         };
@@ -98,15 +68,16 @@ export default defineComponent({
                     const clientResponse = await api.get(`/api/Cliente/${animal.clienteId}`);
                     animal.clienteNome = `${clientResponse.data.nome} ${clientResponse.data.sobrenome}`;
                     animal.cpfCliente = clientResponse.data.cpf
+                    animal.ativo = animal.ativo ? 'Ativo' : 'Inativo';
                     return animal;
                 });
 
                 // Espero carregar o cliente
                 const animalComCliente = await Promise.all(ClientePromisse);
-
                 rows.value = filtroCPF.value
                     ? animalComCliente.filter(animal => animal.cpfCliente.includes(filtroCPF.value))
                     : animalComCliente;
+
             } catch (error) {
                 console.error('Erro ao buscar dados:', error);
             }
@@ -141,7 +112,6 @@ export default defineComponent({
             })
 
             fetchData()
-
         }
 
         onMounted(() => {
@@ -154,11 +124,30 @@ export default defineComponent({
             confirm,
             filtroCPF,
             getSexoBadgeColor,
-            getStatusBadgeColor
-        }
-    }
+            getStatusBadgeColor,
+
+        };
+    },
+
+    components: {
+        AnimaisTable,
+    },
 })
 </script>
+
+<style scoped>
+.custom-card {
+    height: 70px;
+    /* Defina a altura desejada */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+
+    margin-bottom: 20px;
+}
+</style>
+  
   
   
   
