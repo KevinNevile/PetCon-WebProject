@@ -27,7 +27,11 @@
             <q-checkbox v-model="val">Lembrar-se de mim</q-checkbox>
           </div>
           <q-btn class="full-width" style="background: #26335d; color: white; padding: 25px" label="Acessar"
-            :to="{ name: 'consultas' }" />
+            @click="fazerLogin" />
+            <div v-if="erroLogin" class="mensagem-erro">
+              {{ erroLogin }}
+            </div>
+          <!-- :to="{ name: 'consultas' }" /> -->
         </div>
         <div class="q-mt-md text-center">
           Não possui uma conta?
@@ -40,6 +44,7 @@
 
 <script>
 import { ref } from "vue";
+import axios from "axios";
 
 export default {
   name: "PageLogin",
@@ -50,6 +55,7 @@ export default {
         password: "",
         isPwd: true,
       },
+      erroLogin: null,
     };
   },
 
@@ -59,12 +65,33 @@ export default {
     };
   },
 
-  methods: {},
+  methods: {async fazerLogin() {
+      try {
+        const response = await axios.post("/api/Clinica/Login", {
+          email: this.login.email,
+          senha: this.login.password,
+        });
+
+        if (response.status === 200) {
+          this.$router.push({ name: "consultas" });
+        } else {
+          this.erroLogin = "Email ou Senha incorretos. Por favor, tente novamente.";
+        }
+      } catch (error) {
+        console.error("Erro durante o login", error);
+        this.erroLogin = "Erro durante o login. Por favor, tente novamente.";
+      }
+    },},
 };
 </script>
 
 <style scoped>
 .login-background {
   background-color: #ffffff;
+}
+
+.mensagem-erro {
+  color: #ff0000;
+  margin-top: 10px;
 }
 </style>
