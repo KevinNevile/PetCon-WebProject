@@ -3,7 +3,7 @@
     <div>
       <q-card class="custom-card">
         <q-card-section>
-          <h5>Cadastrar Cliente</h5>
+          <h5>Cadastrar Animal</h5>
         </q-card-section>
       </q-card>
     </div>
@@ -19,11 +19,11 @@
               outlined
               class="col-lg-6 col-xs-12"
               filled
-              v-model="form.nome"
-              label="Nome *"
+              v-model="form.nomeAnimal"
+              label="Nome do Animal *"
               lazy-rules
               :rules="[
-                (val) => (val && val.length > 0) || 'Digite o nome do cliente ',
+                (val) => (val && val.length > 0) || 'Digite o Nome do Animal',
               ]"
             />
 
@@ -31,12 +31,25 @@
               outlined
               class="col-lg-6 col-xs-12"
               filled
-              v-model="form.sobrenome"
-              label="Sobrenome *"
+              v-model="form.raca"
+              label="Raça do Animal *"
+              lazy-rules
+              :rules="[
+                (val) => (val && val.length > 0) || 'Digite a Raça do Animal',
+              ]"
+            />
+
+            <q-input
+              outlined
+              class="col-lg-6 col-xs-12"
+              filled
+              v-model="form.tipo"
+              label="Tipo do Animal *"
               lazy-rules
               :rules="[
                 (val) =>
-                  (val && val.length > 0) || 'Digite o sobrenome do cliente',
+                  (val && val.length > 0) ||
+                  'Digite o Tipo do Animal (cão, gato)',
               ]"
             />
 
@@ -44,42 +57,49 @@
               outlined
               class="col-lg-6 col-xs-12"
               filled
-              v-model="form.cpf"
-              label="CPF *"
+              v-model="form.idade"
+              label="Idade do Animal *"
               lazy-rules
               :rules="[
-                (val) => (val && val.length > 0) || 'Digite um CPF válido',
+                (val) => (val && val.length > 0) || 'Digite a Idade do Animal',
               ]"
-            />
-            <q-input
-              outlined
-              class="col-lg-6 col-xs-12"
-              filled
-              v-model="form.telefone"
-              label="Telefone"
-            />
-            <q-input
-              outlined
-              class="col-lg-12 col-xs-12"
-              filled
-              v-model="form.email"
-              label="E-mail *"
-              lazy-rules
-              :rules="[
-                (val) => (val && val.length > 0) || 'Digite um e-mail válido',
-              ]"
+              type="number"
             />
 
-            <div class="col-lg-12 col-xs-12">
-              <q-editor v-model="editor" min-height="5rem" />
-            </div>
+            <q-select
+              outlined
+              class="col-lg-6 col-xs-12"
+              v-model="form.sexo"
+              label="Sexo do Animal"
+              :options="options"
+              lazy-rules
+              :rules="[(val) => val !== null || 'Selecione o sexo do Animal']"
+            />
+
+            <q-select
+              outlined
+              class="col-lg-6 col-xs-12"
+              v-model="selectedClient"
+              label="CPF do Cliente"
+              :options="
+                clients.map((client) => ({
+                  label: `${client.cpf} - ${client.nome}`,
+                  value: client.userId,
+                }))
+              "
+              lazy-rules
+              :rules="[
+                (val) =>
+                  val !== null || 'Selecione um Cliente para esse animal',
+              ]"
+            />
 
             <div class="col-lg-12 col-xs-12 d-flex justify-end row">
               <div>
                 <q-btn
                   no-caps
                   label="Cancelar"
-                  :to="{ name: 'clientes' }"
+                  :to="{ name: 'animais' }"
                   color="negative"
                   style="width: 120px"
                 />
@@ -102,35 +122,40 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { ref, onMounted } from "vue";
 import { api } from "src/boot/axios";
 import { useQuasar } from "quasar";
 
-export default defineComponent({
-  name: "formClientes",
+export default {
+  name: "formAnimais",
 
   setup() {
     const $q = useQuasar();
     const clients = ref([]);
+    const selectedClient = ref(null);
     const form = ref({
-      nome: "",
-      sobrenome: "",
-      email: "",
-      cpf: "",
-      telefone: "",
+      nomeAnimal: "",
+      raca: null,
+      sexo: null,
+      tipo: null,
+      idade: null,
     });
 
     const submit = async () => {
       const body = {
-        nome: form.value.nome,
-        raca: form.value.sobrenome,
-        sexo: form.value.email,
-        tipo: form.value.cpf,
-        telefone: form.value.telefone,
+        nome: form.value.nomeAnimal,
+        raca: form.value.raca,
+        sexo: form.value.sexo,
+        tipo: form.value.tipo,
+        idade: parseFloat(form.value.idade),
         ativo: true,
       };
+
       try {
-        const response = await api.post(`api/Cliente/CadastrarCliente`, body);
+        const response = await api.post(
+          `api/Cliente/IncluirAnimal?id=${selectedClient.value.value}`,
+          body
+        );
         console.log(body);
         console.log("Response:", response);
 
@@ -139,7 +164,7 @@ export default defineComponent({
           color: "secondary",
         });
       } catch (error) {
-        console.error("Erro no cadastro:", error);
+        console.error("Erro ao cadastrar animal:", error);
       }
     };
 
@@ -162,25 +187,30 @@ export default defineComponent({
         submit();
       });
     };
+
     const onReset = () => {
-      form.value.nome = " ";
-      form.value.sobrenome = " ";
-      form.value.email = " ";
-      form.value.cpf = " ";
-      form.value.itelefone = " ";
+      form.value.nomeAnimal = " ";
+      form.value.raca = " ";
+      form.value.sexo = " ";
+      form.value.tipo = " ";
+      form.value.idade = " ";
+      selectedClient.value = null;
     };
 
     onMounted(() => {
       fetchClients();
     });
+
     return {
       clients,
+      selectedClient,
       form,
       confirm,
       onReset,
+      options: ["Macho", "Fêmea"],
     };
   },
-});
+};
 </script>
 
 <style scoped>

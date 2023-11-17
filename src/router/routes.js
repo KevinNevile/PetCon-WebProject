@@ -40,17 +40,27 @@ const routes = [
         component: () => import("pages/Clientes.vue"),
       },
       {
+        path: "animais",
+        name: "animais",
+        component: () => import("pages/Animais.vue"),
+      },
+      {
         path: "CadastrarConsulta",
         name: "formConsulta",
         component: () => import("pages/Cadastro/ConsultaCad.vue"),
       },
       {
         path: "CadastrarCliente",
-        name: "formCliente",
+        name: "formClientes",
         component: () => import("pages/Cadastro/ClienteCad.vue"),
       },
       {
-        path: "EditarConsulta",
+        path: "CadastrarAnimal",
+        name: "formAnimais",
+        component: () => import("pages/Cadastro/AnimalCad.vue"),
+      },
+      {
+        path: "EditarConsulta/:id",
         name: "editConsulta",
         component: () => import("pages/Editar/ConsultaEdit.vue"),
       },
@@ -73,6 +83,11 @@ const routes = [
         path: "EditarVeterinario",
         name: "editVeterinario",
         component: () => import("pages/Editar/VeterinarioEdit.vue"),
+      },
+      {
+        path: "EditarAnimal/:idCliente/:idAnimal",
+        name: "editAnimal",
+        component: () => import("pages/Editar/AnimalEdit.vue"),
       },
     ],
   },
