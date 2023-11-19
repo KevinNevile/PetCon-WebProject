@@ -17,10 +17,16 @@ Criar um site que facilite a gestão de uma clínica veterinária.
 
 ## Apresentação
 * Tela inicial a ser demonstrada ao entrar no site [PetCon](https://pet-con-web-project.vercel.app)
- <img src="https://github.com/KevinNevile/PetCon-WebProject/blob/main/src/assets/Menu.png">
+ <img src="https://github.com/KevinNevile/PetCon-WebProject/blob/main/src/assets/Menu.png" width="500">
 
 * Tela de Login
- <img src="https://github.com/KevinNevile/PetCon-WebProject/blob/main/src/assets/Login.png">
+ <img src="https://github.com/KevinNevile/PetCon-WebProject/blob/main/src/assets/Login.png" width="500">
 
 * Tela de Consultas para ver os agendamentos do dia
- <img src="https://github.com/KevinNevile/PetCon-WebProject/blob/main/src/assets/Consulta.png">
+ <img src="https://github.com/LuanaFeliciano/App-PetCon/assets/98564118/a32a85df-990a-4901-b6fa-fbaca755e005" width="500">
+
+ * Tela de Cadastro das Consultas
+ <img src="https://github.com/LuanaFeliciano/App-PetCon/assets/98564118/6bec1f51-3b5d-4253-9ccf-cee158b1e303" width="500">
+
+ * Tela de Editar Consulta
+  <img src="https://github.com/LuanaFeliciano/App-PetCon/assets/98564118/f23633e6-d6fe-4f0c-a59d-6ec4dd3e5376" width="500">
