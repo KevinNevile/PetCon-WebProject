@@ -1,7 +1,9 @@
 <template>
   <q-page class="q-pa-xl login-background">
     <div class="q-mb-md">
-      <q-btn flat round icon="arrow_back" @click="$router.push('/')">Voltar</q-btn>
+      <q-btn flat round icon="arrow_back" @click="$router.push('/')"
+        >Voltar</q-btn
+      >
     </div>
 
     <div class="row justify-center">
@@ -12,25 +14,42 @@
         </div>
         <div class="q-my-xl text-grey-7">
           <h7>Endereço de Email</h7>
-          <q-input class="q-mt-sm" outlined v-model="login.email" label="Email" />
+          <q-input
+            class="q-mt-sm"
+            outlined
+            v-model="login.email"
+            label="Email"
+          />
         </div>
         <div class="q-my-xl text-grey-7">
           <h7>Senha</h7>
-          <q-input class="q-mt-sm" v-model="login.password" outlined label="Senha"
-            :type="login.isPwd ? 'password' : 'text'">
+          <q-input
+            class="q-mt-sm"
+            v-model="login.senha"
+            outlined
+            label="Senha"
+            :type="login.isPwd ? 'password' : 'text'"
+          >
             <template v-slot:append>
-              <q-icon :name="login.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
-                @click="login.isPwd = !login.isPwd" />
+              <q-icon
+                :name="login.isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="login.isPwd = !login.isPwd"
+              />
             </template>
           </q-input>
           <div class="q-pa-md text-grey-6">
             <q-checkbox v-model="val">Lembrar-se de mim</q-checkbox>
           </div>
-          <q-btn class="full-width" style="background: #26335d; color: white; padding: 25px" label="Acessar"
-            @click="fazerLogin" />
-            <div v-if="erroLogin" class="mensagem-erro">
-              {{ erroLogin }}
-            </div>
+          <q-btn
+            class="full-width"
+            style="background: #26335d; color: white; padding: 25px"
+            label="Acessar"
+            @click="fazerLogin"
+          />
+          <div v-if="erroLogin" class="mensagem-erro">
+            {{ erroLogin }}
+          </div>
           <!-- :to="{ name: 'consultas' }" /> -->
         </div>
         <div class="q-mt-md text-center">
@@ -44,7 +63,7 @@
 
 <script>
 import { ref } from "vue";
-import axios from "axios";
+import { api } from "src/boot/axios";
 
 export default {
   name: "PageLogin",
@@ -52,7 +71,7 @@ export default {
     return {
       login: {
         email: "",
-        password: "",
+        senha: "",
         isPwd: true,
       },
       erroLogin: null,
@@ -65,23 +84,26 @@ export default {
     };
   },
 
-  methods: {async fazerLogin() {
+  methods: {
+    async fazerLogin() {
       try {
-        const response = await axios.post("/api/Clinica/Login", {
+        const response = await api.post("api/Clinica/api/Clinica/Login", {
           email: this.login.email,
-          senha: this.login.password,
+          senha: this.login.senha,
         });
 
-        if (response.status === 200) {
+        if (response.status == 200) {
           this.$router.push({ name: "consultas" });
         } else {
-          this.erroLogin = "Email ou Senha incorretos. Por favor, tente novamente.";
+          this.erroLogin =
+            "Email ou Senha incorretos. Por favor, tente novamente.";
         }
       } catch (error) {
         console.error("Erro durante o login", error);
         this.erroLogin = "Erro durante o login. Por favor, tente novamente.";
       }
-    },},
+    },
+  },
 };
 </script>
 
