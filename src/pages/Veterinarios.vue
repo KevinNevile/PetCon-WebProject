@@ -70,13 +70,16 @@
 </template>
 
 <script>
-import { ref, defineComponent, onMounted } from "vue";
+import { ref, defineComponent, onMounted, watch } from "vue";
 import { useQuasar } from "quasar";
+import { api } from "src/boot/axios";
+const filtroCPF = ref("");
 
 export default defineComponent({
   name: "VeterinariosPage",
 
   setup() {
+    const rows = ref([]);
     const columns = ref([
       {
         name: "cpf",
@@ -114,13 +117,6 @@ export default defineComponent({
         align: "left",
       },
       {
-        name: "status",
-        field: "status",
-        label: "Status",
-        sortable: false,
-        align: "left",
-      },
-      {
         name: "acoes",
         field: "acoes",
         label: "Ações",
@@ -129,40 +125,21 @@ export default defineComponent({
       },
     ]);
 
-    const rows = ref([
-      {
-        cpf: 1,
-        nome: "Kevin",
-        sobrenome: "Neve",
-        email: "kevin@teste.com",
-        contato: "123456",
-        status: "Disponível",
-      },
-      {
-        cpf: 2,
-        nome: "John",
-        sobrenome: "Andersen",
-        email: "john@teste.com",
-        contato: "12345",
-        status: "Indisponível",
-      },
-      {
-        cpf: 3,
-        nome: "Daniel",
-        sobrenome: "Pontoglio",
-        email: "daniel@teste.com",
-        contato: "1234",
-        status: "Disponível",
-      },
-      {
-        cpf: 4,
-        nome: "Luana",
-        sobrenome: "Chefia",
-        email: "luana@teste.com",
-        contato: "123",
-        status: "Indisponível",
-      },
-    ]);
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/api/Veterinario");
+
+        const veterinarios = response.data.$values;
+
+        rows.value = filtroCPF.value
+          ? veterinarios.filter((veterinario) =>
+              veterinario.cpf.includes(filtroCPF.value)
+            )
+          : veterinarios;
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
 
     const $q = useQuasar();
 
@@ -189,12 +166,20 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {});
+    const handleFilterChange = () => {
+      fetchData();
+    };
+    watch(filtroCPF, handleFilterChange);
+
+    onMounted(() => {
+      fetchData();
+    });
 
     return {
       columns,
       rows,
       confirm,
+      filtroCPF,
     };
   },
 });
