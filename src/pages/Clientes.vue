@@ -1,32 +1,68 @@
 <template>
   <q-page padding>
-    <q-table :title="'Clientes (' + rows.length + ')'" :rows="rows" :columns="columns" row-key="id">
+    <q-table
+      :title="'Clientes (' + rows.length + ')'"
+      :rows="rows"
+      :columns="columns"
+      row-key="id"
+    >
       <template v-slot:header-cell-acoes="props">
         <q-th :props="props">Ações</q-th>
       </template>
       <template v-slot:top>
-        <span class="text-h5">Clientes
-          <span class="text-h6" style="color: rgb(167, 167, 167)">({{ rows.length }})</span></span>
+        <span class="text-h5"
+          >Clientes
+          <span class="text-h6" style="color: rgb(167, 167, 167)"
+            >({{ rows.length }})</span
+          ></span
+        >
         <q-space />
         <div class="q-pa-md">
-          <q-input outlined class="col-lg-6 col-xs-12" filled v-model="filtroCPF" label="Filtrar por CPF" dense />
+          <q-input
+            outlined
+            class="col-lg-6 col-xs-12"
+            filled
+            v-model="filtroCPF"
+            label="Filtrar por CPF"
+            dense
+          />
         </div>
-        <q-btn class="text-white" no-caps :disable="loading" label="Cadastrar" :to="{ name: 'formCliente' }"
-          style="background-color: #26335d; width: 120px" />
+        <q-btn
+          class="text-white"
+          no-caps
+          :disable="loading"
+          label="Cadastrar"
+          :to="{ name: 'cadCliente' }"
+          style="background-color: #26335d; width: 120px"
+        />
       </template>
 
       <template v-slot:body-cell-acoes="props">
         <q-td :props="props">
-          <q-btn style="margin-right: 5px" icon="edit" color="primary" dense :to="{ name: 'editCliente' }">
+          <q-btn
+            style="margin-right: 5px"
+            icon="edit"
+            color="primary"
+            dense
+            :to="{ name: 'editCliente' }"
+          >
           </q-btn>
-          <q-btn icon="delete" color="negative" dense @click="confirm(props.row.id)">
+          <q-btn
+            icon="delete"
+            color="negative"
+            dense
+            @click="confirm(props.row.id)"
+          >
           </q-btn>
         </q-td>
       </template>
 
       <template v-slot:body-cell-status="props">
         <q-td :props="props">
-          <q-badge :color="props.row.status === 'Concluído' ? 'red' : 'green'">{{ props.row.status }}</q-badge>
+          <q-badge
+            :color="props.row.status === 'Concluído' ? 'red' : 'green'"
+            >{{ props.row.status }}</q-badge
+          >
         </q-td>
       </template>
     </q-table>
@@ -36,14 +72,15 @@
 <script>
 import { ref, defineComponent, onMounted, watch } from "vue";
 import { useQuasar } from "quasar";
-import { api } from 'src/boot/axios';
-const filtroCPF = ref('');
+import { api } from "src/boot/axios";
+
+const filtroCPF = ref("");
 
 export default defineComponent({
   name: "ClientesPage",
 
   setup() {
-    const rows = ref([])
+    const rows = ref([]);
     const columns = ref([
       {
         name: "nome",
@@ -90,20 +127,19 @@ export default defineComponent({
       },
     ]);
 
-
     const fetchData = async () => {
       try {
-        const response = await api.get('/api/Cliente');
+        const response = await api.get("/api/Cliente");
 
         const clientes = response.data.$values;
 
-        rows.value = clientes
+        rows.value = clientes;
 
         rows.value = filtroCPF.value
-          ? clientes.filter(cliente => cliente.cpf.includes(filtroCPF.value))
+          ? clientes.filter((cliente) => cliente.cpf.includes(filtroCPF.value))
           : clientes;
       } catch (error) {
-        console.error('Erro ao buscar dados:', error);
+        console.error("Erro ao buscar dados:", error);
       }
     };
     const $q = useQuasar();
@@ -129,14 +165,14 @@ export default defineComponent({
     watch(filtroCPF, handleFilterChange);
 
     onMounted(() => {
-      fetchData()
+      fetchData();
     });
 
     return {
       columns,
       rows,
       confirm,
-      filtroCPF
+      filtroCPF,
     };
   },
 });
