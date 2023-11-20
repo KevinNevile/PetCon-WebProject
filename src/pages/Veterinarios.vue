@@ -36,14 +36,23 @@
 <script>
 import { ref, defineComponent, onMounted, watch } from "vue";
 import { useQuasar } from "quasar";
+<<<<<<< HEAD
 import { api } from 'src/boot/axios';
 const filtroCPF = ref('');
+=======
+import { api } from "src/boot/axios";
+const filtroCPF = ref("");
+>>>>>>> 42a7dbbcf188a2f23fb4f0964954aa2fd2bb6d68
 
 export default defineComponent({
   name: "VeterinariosPage",
 
   setup() {
+<<<<<<< HEAD
     const rows = ref([])
+=======
+    const rows = ref([]);
+>>>>>>> 42a7dbbcf188a2f23fb4f0964954aa2fd2bb6d68
     const columns = ref([
       {
         name: "cpf",
@@ -74,6 +83,16 @@ export default defineComponent({
         align: "left",
       },
       {
+<<<<<<< HEAD
+=======
+        name: "contato",
+        field: "contato",
+        label: "Contato",
+        sortable: true,
+        align: "left",
+      },
+      {
+>>>>>>> 42a7dbbcf188a2f23fb4f0964954aa2fd2bb6d68
         name: "acoes",
         field: "acoes",
         label: "Ações",
@@ -84,15 +103,28 @@ export default defineComponent({
 
     const fetchData = async () => {
       try {
+<<<<<<< HEAD
         const response = await api.get('/api/Veterinario');
+=======
+        const response = await api.get("/api/Veterinario");
+>>>>>>> 42a7dbbcf188a2f23fb4f0964954aa2fd2bb6d68
 
         const veterinarios = response.data.$values;
 
         rows.value = filtroCPF.value
+<<<<<<< HEAD
           ? veterinarios.filter(veterinario => veterinario.cpf.includes(filtroCPF.value))
           : veterinarios;
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
+=======
+          ? veterinarios.filter((veterinario) =>
+              veterinario.cpf.includes(filtroCPF.value)
+            )
+          : veterinarios;
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+>>>>>>> 42a7dbbcf188a2f23fb4f0964954aa2fd2bb6d68
       }
     };
 
@@ -127,14 +159,22 @@ export default defineComponent({
     watch(filtroCPF, handleFilterChange);
 
     onMounted(() => {
+<<<<<<< HEAD
       fetchData()
+=======
+      fetchData();
+>>>>>>> 42a7dbbcf188a2f23fb4f0964954aa2fd2bb6d68
     });
 
     return {
       columns,
       rows,
       confirm,
+<<<<<<< HEAD
       filtroCPF
+=======
+      filtroCPF,
+>>>>>>> 42a7dbbcf188a2f23fb4f0964954aa2fd2bb6d68
     };
   },
 });
