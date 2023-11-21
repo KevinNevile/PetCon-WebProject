@@ -57,27 +57,27 @@
 
             <q-input
               outlined
-              class="col-lg-6 col-xs-12"
-              filled
-              v-model="form.email"
-              label="Contato *"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Digite o Contato do Veterinário',
-              ]"
-            />
-
-            <q-input
-              outlined
               class="col-lg-12 col-xs-12"
               filled
-              v-model="form.contato"
+              v-model="form.email"
               label="E-mail *"
               lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 0) || 'Digite o E-mail do Veterinário',
+              ]"
+            />
+
+            <q-input
+              outlined
+              class="col-lg-6 col-xs-12"
+              filled
+              v-model="form.contato"
+              label="Contato *"
+              lazy-rules
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) || 'Digite o Contato do Veterinário',
               ]"
             />
 
@@ -101,6 +101,7 @@
                   no-caps
                   type="submit"
                   class="text-white"
+                  @click="confirm()"
                   style="background-color: #26335d; width: 120px"
                 />
               </div>
@@ -114,11 +115,16 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { api } from "src/boot/axios";
+import { useQuasar } from "quasar";
 console.log("Isso não está funcionando");
+
 export default defineComponent({
   name: "formVeterinario",
 
   setup() {
+    3;
+    const $q = useQuasar();
     const form = ref({
       cpf: "",
       nome: "",
@@ -126,8 +132,58 @@ export default defineComponent({
       email: "",
       contato: "",
     });
+
+    const submit = async () => {
+      const body = {
+        cpf: form.value.cpf,
+        nome: form.value.nome,
+        sobrenome: form.value.sobrenome,
+        email: form.value.email,
+        contato: form.value.contato,
+        ativo: true,
+      };
+
+      try {
+        const response = await api.post(
+          `/api/Veterinario/api/Clinica/AssociarVeterinario?clinicaId=1`,
+          body
+        );
+        console.log(body);
+        console.log("Response:", response);
+
+        $q.notify({
+          message: "Cadastrado com sucesso.",
+          color: "secondary",
+        });
+      } catch (error) {
+        console.error("Erro ao cadastrar veterinário:", error);
+      }
+    };
+
+    const confirm = () => {
+      $q.dialog({
+        title: "Confirmar",
+        message: "Tem certeza que deseja cadastrar?",
+        ok: "Sim",
+        cancel: "Cancelar",
+      }).onOk(() => {
+        submit();
+      });
+    };
+
+    const onReset = () => {
+      form.value.cpf = " ";
+      form.value.nome = " ";
+      form.value.sobrenome = " ";
+      form.value.email = " ";
+      form.value.contato = " ";
+      selectedClinica.value = null;
+    };
+
     return {
       form,
+      confirm,
+      onReset,
     };
   },
 });
