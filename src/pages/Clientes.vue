@@ -32,7 +32,7 @@
           no-caps
           :disable="loading"
           label="Cadastrar"
-          :to="{ name: 'formCliente' }"
+          :to="{ name: 'cadCliente' }"
           style="background-color: #26335d; width: 120px"
         />
       </template>
@@ -70,45 +70,49 @@
 </template>
 
 <script>
-import { ref, defineComponent, onMounted } from "vue";
+import { ref, defineComponent, onMounted, watch } from "vue";
 import { useQuasar } from "quasar";
+import { api } from "src/boot/axios";
+
+const filtroCPF = ref("");
 
 export default defineComponent({
   name: "ClientesPage",
 
   setup() {
+    const rows = ref([]);
     const columns = ref([
       {
-        name: "nomeCliente",
-        field: "nomeCliente",
+        name: "nome",
+        field: "nome",
         label: "Nome",
         sortable: true,
         align: "left",
       },
       {
-        name: "sobrenomeCliente",
-        field: "sobrenomeCliente",
+        name: "sobrenome",
+        field: "sobrenome",
         label: "Sobrenome",
         sortable: true,
         align: "left",
       },
       {
-        name: "cpfCliente",
-        field: "cpfCliente",
+        name: "cpf",
+        field: "cpf",
         label: "CPF do Cliente",
         sortable: true,
         align: "left",
       },
       {
-        name: "emailCliente",
-        field: "emailCliente",
+        name: "email",
+        field: "email",
         label: "E-mail",
         sortable: true,
         align: "left",
       },
       {
-        name: "telefoneCliente",
-        field: "telefoneCliente",
+        name: "telefone",
+        field: "telefone",
         label: "Telefone Contato",
         sortable: true,
         align: "left",
@@ -123,37 +127,21 @@ export default defineComponent({
       },
     ]);
 
-    const rows = ref([
-      {
-        nomeCliente: "John",
-        sobrenomeCliente: "Armeni",
-        cpfCliente: "22548473578",
-        emailCliente: "emailjohn@email.com",
-        telefoneCliente: "1897050348",
-      },
-      {
-        nomeCliente: "Luana",
-        sobrenomeCliente: "Banana",
-        cpfCliente: "22408606051",
-        emailCliente: "emailluana@email.com",
-        telefoneCliente: "14972505406",
-      },
-      {
-        nomeCliente: "Kevin",
-        sobrenomeCliente: "Linguiça",
-        cpfCliente: "45762130468",
-        emailCliente: "emailkevin@email.com",
-        telefoneCliente: "14963045710",
-      },
-      {
-        nomeCliente: "Daniel",
-        sobrenomeCliente: "Pastel",
-        cpfCliente: "41625879300",
-        emailCliente: "emaildaniel@email.com",
-        telefoneCliente: "14978501344",
-      },
-    ]);
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/api/Cliente");
 
+        const clientes = response.data.$values;
+
+        rows.value = clientes;
+
+        rows.value = filtroCPF.value
+          ? clientes.filter((cliente) => cliente.cpf.includes(filtroCPF.value))
+          : clientes;
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
     const $q = useQuasar();
 
     const confirm = (id) => {
@@ -171,20 +159,20 @@ export default defineComponent({
       });
     };
 
-    const deleteRow = (id) => {
-      const index = rows.value.findIndex((row) => row.id === id);
-
-      if (index !== -1) {
-        rows.value.splice(index, 1);
-      }
+    const handleFilterChange = () => {
+      fetchData();
     };
+    watch(filtroCPF, handleFilterChange);
 
-    onMounted(() => {});
+    onMounted(() => {
+      fetchData();
+    });
 
     return {
       columns,
       rows,
       confirm,
+      filtroCPF,
     };
   },
 });

@@ -89,7 +89,7 @@
                   class="text-white"
                   no-caps
                   label="Confirmar"
-                  type="submit"
+                  @click="confirm()"
                   style="background-color: #26335d; width: 120px"
                 />
               </div>
@@ -102,12 +102,16 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
+import { api } from "src/boot/axios";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
-  name: "formCliente",
+  name: "cadCliente",
 
   setup() {
+    const $q = useQuasar();
+    const clients = ref([]);
     const form = ref({
       nome: "",
       sobrenome: "",
@@ -115,8 +119,57 @@ export default defineComponent({
       cpf: "",
       telefone: "",
     });
+
+    const submit = async () => {
+      const body = {
+        nome: form.value.nome,
+        sobrenome: form.value.sobrenome,
+        email: form.value.email,
+        cpf: form.value.cpf,
+        telefone: form.value.telefone,
+        ativo: true,
+        senha: "123",
+      };
+      try {
+        const response = await api.post(
+          `api/Cliente/api/Clinica/CadastrarCliente?clinicaId=1`,
+          body
+        );
+        console.log(body);
+        console.log("Response:", response);
+
+        $q.notify({
+          message: "Cadastrado com sucesso.",
+          color: "secondary",
+        });
+      } catch (error) {
+        console.error("Erro no cadastro:", error);
+      }
+    };
+
+    const confirm = () => {
+      $q.dialog({
+        title: "Confirmar",
+        message: "Tem certeza que deseja cadastrar?",
+        ok: "Sim",
+        cancel: "Cancelar",
+      }).onOk(() => {
+        submit();
+      });
+    };
+    const onReset = () => {
+      form.value.nome = " ";
+      form.value.sobrenome = " ";
+      form.value.email = " ";
+      form.value.cpf = " ";
+      form.value.telefone = " ";
+    };
+
     return {
+      clients,
       form,
+      confirm,
+      onReset,
     };
   },
 });
@@ -125,7 +178,6 @@ export default defineComponent({
 <style scoped>
 .custom-card {
   height: 70px;
-  /* Defina a altura desejada */
   display: flex;
   flex-direction: column;
   justify-content: center;
