@@ -102,12 +102,12 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { api } from "src/boot/axios";
 import { useQuasar } from "quasar";
 
 export default defineComponent({
-  name: "formClientes",
+  name: "cadCliente",
 
   setup() {
     const $q = useQuasar();
@@ -123,14 +123,18 @@ export default defineComponent({
     const submit = async () => {
       const body = {
         nome: form.value.nome,
-        raca: form.value.sobrenome,
-        sexo: form.value.email,
-        tipo: form.value.cpf,
+        sobrenome: form.value.sobrenome,
+        email: form.value.email,
+        cpf: form.value.cpf,
         telefone: form.value.telefone,
         ativo: true,
+        senha: "123",
       };
       try {
-        const response = await api.post(`api/Cliente/CadastrarCliente`, body);
+        const response = await api.post(
+          `api/Cliente/api/Clinica/CadastrarCliente?clinicaId=1`,
+          body
+        );
         console.log(body);
         console.log("Response:", response);
 
@@ -140,15 +144,6 @@ export default defineComponent({
         });
       } catch (error) {
         console.error("Erro no cadastro:", error);
-      }
-    };
-
-    const fetchClients = async () => {
-      try {
-        const response = await api.get("/api/Cliente");
-        clients.value = response.data.$values;
-      } catch (error) {
-        console.error("Erro ao buscar clientes:", error);
       }
     };
 
@@ -167,12 +162,9 @@ export default defineComponent({
       form.value.sobrenome = " ";
       form.value.email = " ";
       form.value.cpf = " ";
-      form.value.itelefone = " ";
+      form.value.telefone = " ";
     };
 
-    onMounted(() => {
-      fetchClients();
-    });
     return {
       clients,
       form,
@@ -186,7 +178,6 @@ export default defineComponent({
 <style scoped>
 .custom-card {
   height: 70px;
-  /* Defina a altura desejada */
   display: flex;
   flex-direction: column;
   justify-content: center;

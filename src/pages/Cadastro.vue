@@ -1,7 +1,9 @@
 <template>
   <q-page class="q-pa-xl login-background">
     <div class="q-mb-md">
-      <q-btn flat round icon="arrow_back" @click="$router.push('/login')">Voltar</q-btn>
+      <q-btn flat round icon="arrow_back" @click="$router.push('/login')"
+        >Voltar</q-btn
+      >
     </div>
 
     <div class="row justify-center">
@@ -12,51 +14,100 @@
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Nome</h7>
-          <q-input class="q-mt-sm" outlined v-model="cadastro.nome" label="Nome" />
+          <q-input
+            class="q-mt-sm"
+            outlined
+            v-model="cadastro.nome"
+            label="Nome"
+          />
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Sobrenome</h7>
-          <q-input class="q-mt-sm" outlined v-model="cadastro.sobrenome" label="Sobrenome" />
+          <q-input
+            class="q-mt-sm"
+            outlined
+            v-model="cadastro.sobrenome"
+            label="Sobrenome"
+          />
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Email</h7>
-          <q-input class="q-mt-sm" outlined v-model="cadastro.email" label="Email" />
+          <q-input
+            class="q-mt-sm"
+            outlined
+            v-model="cadastro.email"
+            label="Email"
+          />
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Senha</h7>
-          <q-input class="q-mt-sm" v-model="cadastro.password" outlined label="Senha"
-            :type="cadastro.isPwd ? 'password' : 'text'" @input="clearErrorMessage">
+          <q-input
+            class="q-mt-sm"
+            v-model="cadastro.password"
+            outlined
+            label="Senha"
+            :type="cadastro.isPwd ? 'password' : 'text'"
+            @input="clearErrorMessage"
+          >
             <template v-slot:append>
-              <q-icon :name="cadastro.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
-                @click="cadastro.isPwd = !cadastro.isPwd" />
+              <q-icon
+                :name="cadastro.isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="cadastro.isPwd = !cadastro.isPwd"
+              />
             </template>
           </q-input>
         </div>
         <div class="q-my-lg text-grey-7">
           <h7>Confirmar Senha</h7>
-          <q-input class="q-mt-sm" v-model="cadastro.confirmPassword" outlined label="Confirmar Senha"
-            :type="cadastro.isPwd ? 'password' : 'text'" @input="clearErrorMessage">
+          <q-input
+            class="q-mt-sm"
+            v-model="cadastro.confirmPassword"
+            outlined
+            label="Confirmar Senha"
+            :type="cadastro.isPwd ? 'password' : 'text'"
+            @input="clearErrorMessage"
+          >
             <template v-slot:append>
-              <q-icon :name="cadastro.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer"
-                @click="cadastro.isPwd = !cadastro.isPwd" />
+              <q-icon
+                :name="cadastro.isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="cadastro.isPwd = !cadastro.isPwd"
+              />
             </template>
           </q-input>
-          <q-btn class="full-width q-mt-xl" style="background: #26335d; color: white; padding: 25px" label="Cadastrar"
-            @click="registerClinic" />
-            <!--   -->
-            <p v-if="passwordsDoNotMatch" class="error-message" style="color: red;">As senhas não coincidem.</p>
-            <p v-if="successMessage" class="success-message" :href="navigateToLogin()" style="color: green;">{{ successMessage }} </p>
+          <q-btn
+            class="full-width q-mt-xl"
+            style="background: #26335d; color: white; padding: 25px"
+            label="Cadastrar"
+            @click="registerClinic"
+          />
+          <!--   -->
+          <p
+            v-if="passwordsDoNotMatch"
+            class="error-message"
+            style="color: red"
+          >
+            As senhas não coincidem.
+          </p>
+          <p
+            v-if="successMessage"
+            class="success-message"
+            :href="navigateToLogin()"
+            style="color: green"
+          >
+            {{ successMessage }}
+          </p>
         </div>
       </div>
-      <div class="q-my-lg text-grey-7">
-    </div>
+      <div class="q-my-lg text-grey-7"></div>
     </div>
   </q-page>
 </template>
 
 <script>
 import { ref } from "vue";
-import axios from "axios";
+import { api } from "src/boot/axios";
 import { useRouter } from "vue-router";
 
 export default {
@@ -85,12 +136,11 @@ export default {
 
   methods: {
     registerClinic() {
-
       if (this.cadastro.password !== this.cadastro.confirmPassword) {
-      this.passwordsDoNotMatch = true;
-      this.successMessage = "";
-      this.errorMessage = "As senhas não coincidem.";
-      return;
+        this.passwordsDoNotMatch = true;
+        this.successMessage = "";
+        this.errorMessage = "As senhas não coincidem.";
+        return;
       }
 
       const clinicData = {
@@ -99,14 +149,14 @@ export default {
         SenhaAcesso: this.cadastro.password,
       };
 
-      axios
       //ALTERAR NOMES
-        .post("https://localhost:7127/api/Clinica/Create", clinicData)
+      api
+        .post("api/Clinica/api/Clinica/Create", clinicData)
         .then((response) => {
           console.log("Registrado com sucesso:", response.data);
           this.successMessage = "Cadastrado com sucesso";
           this.passwordsDoNotMatch = false;
-          this.errorMessage = ""; 
+          this.errorMessage = "";
           setTimeout(() => {
             this.navigateToLogin(), 2000;
           });
@@ -118,14 +168,13 @@ export default {
 
     navigateToLogin() {
       const router = useRouter();
-      router.push({ name: 'login' });
+      router.push({ name: "login" });
     },
 
     clearErrorMessage() {
-    this.passwordsDoNotMatch = false;
-    this.errorMessage = "";
+      this.passwordsDoNotMatch = false;
+      this.errorMessage = "";
     },
-
   },
 };
 </script>

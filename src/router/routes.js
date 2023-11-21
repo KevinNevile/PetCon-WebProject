@@ -51,7 +51,7 @@ const routes = [
       },
       {
         path: "CadastrarCliente",
-        name: "formClientes",
+        name: "cadCliente",
         component: () => import("pages/Cadastro/ClienteCad.vue"),
       },
       {

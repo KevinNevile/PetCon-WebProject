@@ -32,7 +32,7 @@
           no-caps
           :disable="loading"
           label="Cadastrar"
-          :to="{ name: 'formClientes' }"
+          :to="{ name: 'cadCliente' }"
           style="background-color: #26335d; width: 120px"
         />
       </template>
@@ -73,7 +73,7 @@
 import { ref, defineComponent, onMounted, watch } from "vue";
 import { useQuasar } from "quasar";
 import { api } from "src/boot/axios";
-import ClienteCad from "pages/Cadastro/ClienteCad.vue";
+
 const filtroCPF = ref("");
 
 export default defineComponent({
