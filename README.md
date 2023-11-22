@@ -10,23 +10,17 @@
 ## 📋 Objetivo
 Criar um site que facilite a gestão de uma clínica veterinária.
 
- 
+## 👩🏽‍💻 Tecnologia utilizada
+* [Quasar](https://quasar.dev/), um framework para a construção de interfaces de usuário VueJS de alto desempenho.
 
-## 👩🏽‍💻 Tecnologia
-* O projeto está sendo desenvolvido utilizando [Quasar](https://quasar.dev/), um framework para a construção de interfaces de usuário VueJS de alto desempenho.
+## Passo a Passo
+* nvm install --lts - Instale o Node.js LTS
+* npm install -g @quasar/cli: Instale o quasar globalmente
+* npm run dev - Rode o projeto no navegador
 
-## Apresentação
-* Tela inicial a ser demonstrada ao entrar no site [PetCon](https://pet-con-web-project.vercel.app)
- <img src="https://github.com/KevinNevile/PetCon-WebProject/blob/main/src/assets/Menu.png" width="500">
+## Configuração do Projeto e Executando o APP no navegador
 
-* Tela de Login
- <img src="https://github.com/KevinNevile/PetCon-WebProject/blob/main/src/assets/Login.png" width="500">
 
-* Tela de Consultas para ver os agendamentos do dia
- <img src="https://github.com/LuanaFeliciano/App-PetCon/assets/98564118/a32a85df-990a-4901-b6fa-fbaca755e005" width="500">
+## Executando o APP no dispositivo móvel
 
- * Tela de Cadastro das Consultas
- <img src="https://github.com/LuanaFeliciano/App-PetCon/assets/98564118/6bec1f51-3b5d-4253-9ccf-cee158b1e303" width="500">
-
- * Tela de Editar Consulta
-  <img src="https://github.com/LuanaFeliciano/App-PetCon/assets/98564118/f23633e6-d6fe-4f0c-a59d-6ec4dd3e5376" width="500">
+  
