@@ -7,8 +7,9 @@
   * Kevin Nevile de Oliveira
   * Daniel Pontolio Clemente
     
-## 📋 Objetivo
-Criar um site que facilite a gestão de uma clínica veterinária.
+## 📋 Descrição
+O objetivo do sistema PetCon é Melhorar a gestão por parte da Clínica, melhorando a comunicação entre cliente e clínica veterinária, permitindo que
+a clínica realize agendamentos de forma mais eficiente.
 
 ## 📋 WIKI
 https://github.com/KevinNevile/PetCon-WebProject/wiki
