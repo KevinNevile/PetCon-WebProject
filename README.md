@@ -10,17 +10,15 @@
 ## 📋 Objetivo
 Criar um site que facilite a gestão de uma clínica veterinária.
 
+## 📋 WIKI
+https://github.com/KevinNevile/PetCon-WebProject/wiki
+
 ## 👩🏽‍💻 Tecnologia utilizada
 * [Quasar](https://quasar.dev/), um framework para a construção de interfaces de usuário VueJS de alto desempenho.
 
-## Passo a Passo
+## Passo a Passo (Configurar Ambiente e Executar)
 * nvm install --lts - Instale o Node.js LTS
 * npm install -g @quasar/cli: Instale o quasar globalmente
 * npm run dev - Rode o projeto no navegador
-
-## Configuração do Projeto e Executando o APP no navegador
-
-
-## Executando o APP no dispositivo móvel
 
   
