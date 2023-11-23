@@ -17,6 +17,10 @@ https://github.com/KevinNevile/PetCon-WebProject/wiki
 ## 👩🏽‍💻 Tecnologia utilizada
 * [Quasar](https://quasar.dev/), um framework para a construção de interfaces de usuário VueJS de alto desempenho.
 
+## Requisitos
+* Ter instalado Node.Js
+* Ter instalado o [Quasar](https://quasar.dev/)
+  
 ## Passo a Passo (Configurar Ambiente e Executar)
 * nvm install --lts - Instale o Node.js LTS
 * npm install -g @quasar/cli: Instale o quasar globalmente
