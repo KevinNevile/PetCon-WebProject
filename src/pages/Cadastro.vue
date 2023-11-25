@@ -151,7 +151,7 @@ export default {
 
       //ALTERAR NOMES
       api
-        .post("api/Clinica/api/Clinica/Create", clinicData)
+        .post("/api/Clinica/Create", clinicData)
         .then((response) => {
           console.log("Registrado com sucesso:", response.data);
           this.successMessage = "Cadastrado com sucesso";

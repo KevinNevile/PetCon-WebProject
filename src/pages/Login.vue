@@ -50,7 +50,6 @@
           <div v-if="erroLogin" class="mensagem-erro">
             {{ erroLogin }}
           </div>
-          <!-- :to="{ name: 'consultas' }" /> -->
         </div>
         <div class="q-mt-md text-center">
           Não possui uma conta?
@@ -86,11 +85,14 @@ export default {
 
   methods: {
     async fazerLogin() {
+      const email = this.login.email;
+      const senha = this.login.senha;
       try {
-        const response = await api.post("api/Clinica/api/Clinica/Login", {
-          email: this.login.email,
-          senha: this.login.senha,
-        });
+        const response = await api.post(
+          `/api/Clinica/Login?email=${email}&senha=${senha}`
+        );
+
+        console.log(response.data);
 
         if (response.status == 200) {
           this.$router.push({ name: "consultas" });

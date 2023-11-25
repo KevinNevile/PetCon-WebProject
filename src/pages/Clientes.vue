@@ -135,6 +135,7 @@ export default defineComponent({
 
         rows.value = clientes;
 
+
         rows.value = filtroCPF.value
           ? clientes.filter((cliente) => cliente.cpf.includes(filtroCPF.value))
           : clientes;
