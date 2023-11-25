@@ -72,8 +72,8 @@
               outlined
               class="col-lg-6 col-xs-12"
               filled
-              v-model="form.contato"
-              label="Contato *"
+              v-model="form.telefone"
+              label="Telefone *"
               lazy-rules
               :rules="[
                 (val) =>
@@ -130,7 +130,7 @@ export default defineComponent({
       nome: "",
       sobrenome: "",
       email: "",
-      contato: "",
+      telefone: "",
     });
 
     const submit = async () => {
@@ -139,7 +139,7 @@ export default defineComponent({
         nome: form.value.nome,
         sobrenome: form.value.sobrenome,
         email: form.value.email,
-        contato: form.value.contato,
+        telefone: form.value.telefone,
         ativo: true,
       };
 
@@ -176,7 +176,7 @@ export default defineComponent({
       form.value.nome = " ";
       form.value.sobrenome = " ";
       form.value.email = " ";
-      form.value.contato = " ";
+      form.value.telefone = " ";
       selectedClinica.value = null;
     };
 

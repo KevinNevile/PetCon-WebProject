@@ -110,9 +110,9 @@ export default defineComponent({
         align: "left",
       },
       {
-        name: "contato",
-        field: "contato",
-        label: "Contato",
+        name: "telefone",
+        field: "telefone",
+        label: "Telefone",
         sortable: true,
         align: "left",
       },
